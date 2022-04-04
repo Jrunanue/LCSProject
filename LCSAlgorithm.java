@@ -1,4 +1,4 @@
-import java.lang.Math;
+//import java.lang.Math;
 
 public class LCSAlgorithm {
     
@@ -56,12 +56,69 @@ public class LCSAlgorithm {
         System.out.println("Printing table:");
         System.out.println(printTable(table));
 
+        // retrieve string array of LCS
+        String[] temp = retrival(table);
+        
+        // temporary print the array
+        for (String lines: temp) {
+            System.out.println(lines);
+        }
+
         // recover information, starting at last cell
             // if left or up is equal to current cell, don't add and move (tiebreaker defaults to up)
             // if left or up are both less than current cell, go diagonal AND add to beginning of LCS
             // go until you hit 0
         
         return "";
+    }
+
+    // input: LCS solved table
+    // output String Array
+    // indexes from end of table
+    private String[] retrival(int[][] table)
+    {
+        int i = table.length -1;
+        int j = table[i].length -1;
+        String[] out = new String[table[i][j]];
+
+        // System.out.println("i =" +i);
+        // System.out.println("j = "+j);
+        // System.out.println("table length = " + out.length);
+        // System.out.println("f1 line 10-1 = " + f1.lines.get(8-1));
+        // System.out.println("f2 line j-1 = " + f2.lines.get(8-1));
+        // if(f1.lines.get(8-1).equals(f2.lines.get(8-1)))
+        //     out[table[8-1][8-1]] = f1.lines.get(8-1);
+        //     for (String lines: out) {
+        //         System.out.println(lines);
+        //     }
+
+        // while cell your at does not = 0 (end)
+        while(table[i][j] > 0)
+        {
+            // define values
+            int left = table[i-1][j];
+            int top = table[i][j-1];
+            int diagonal = table[i-1][j-1];
+
+            // if top and left are the same -> check for matching substrings
+            if(top == left)
+            {
+                if (f1.lines.get(i-1).equals(f2.lines.get(j-1)))
+                {
+                    // diagnonal makes a good index for array placement
+                    out[diagonal] = f1.lines.get(i-1);
+                    i--;
+                    j--;
+                }
+
+                else // if equal and not a match -> move up one 
+                    i--;
+            }
+            
+            else if (top > left) j--;
+            else i--;
+        }
+        return out;
     }
 
     
