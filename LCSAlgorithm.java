@@ -4,10 +4,14 @@ public class LCSAlgorithm {
     
     protected UserFile f1;
     protected UserFile f2;
+    private int [][] t;
+    private String [] commonLines;
 
     public LCSAlgorithm(UserFile file1, UserFile file2){
         f1 = file1;
         f2 = file2;
+        t = findLCS();
+        commonLines = retrival(t);
     }
 
     // Gets the number of lines in the given file
@@ -15,8 +19,15 @@ public class LCSAlgorithm {
         return file.lines.size();
     }
 
+    public int numOfCommonLines()
+    {
+        //System.out.println("LCS length = " + t[t.length-1][t[0].length-1]);
+        return t[t.length-1][t[0].length-1];
+    }
+
     // the main algorithm
-    public String findLCS(){
+    // public String findLCS(){
+    private int [][] findLCS(){
         // build the table with f1 + 1 columns, f2 + 1 rows
         int [][] table = new int[totalLines(f1)+1][totalLines(f2)+1];
 
@@ -57,19 +68,20 @@ public class LCSAlgorithm {
         System.out.println(printTable(table));
 
         // retrieve string array of LCS
-        String[] temp = retrival(table);
+        //String[] temp = retrival(table);
         
         // temporary print the array
-        for (String lines: temp) {
-            System.out.println(lines);
-        }
+        // for (String lines: temp) {
+        //     System.out.println(lines);
+        // }
 
         // recover information, starting at last cell
             // if left or up is equal to current cell, don't add and move (tiebreaker defaults to up)
             // if left or up are both less than current cell, go diagonal AND add to beginning of LCS
             // go until you hit 0
         
-        return "";
+        // return "";
+        return table;
     }
 
     // input: LCS solved table
@@ -81,16 +93,6 @@ public class LCSAlgorithm {
         int j = table[i].length -1;
         String[] out = new String[table[i][j]];
 
-        // System.out.println("i =" +i);
-        // System.out.println("j = "+j);
-        // System.out.println("table length = " + out.length);
-        // System.out.println("f1 line 10-1 = " + f1.lines.get(8-1));
-        // System.out.println("f2 line j-1 = " + f2.lines.get(8-1));
-        // if(f1.lines.get(8-1).equals(f2.lines.get(8-1)))
-        //     out[table[8-1][8-1]] = f1.lines.get(8-1);
-        //     for (String lines: out) {
-        //         System.out.println(lines);
-        //     }
 
         // while cell your at does not = 0 (end)
         while(table[i][j] > 0)
@@ -148,10 +150,32 @@ public class LCSAlgorithm {
         
         return result;
     }
+    private String[] feedback(UserFile feedFile)
+    {
+        int fileIndex = 0;
+        int stringIndex = 0;
+        
+        return commonLines;
+    }
+
+    private String formattedPrint(String [] arr)
+    {
+        String out = "[";
+        for (int i = 0; i < arr.length - 1; i++)
+        {
+            out += arr[i] + ", ";
+        }
+        out += arr[arr.length-1] + "]";
+        return out;
+    }
 
     // toString method
     @Override
     public String toString(){
+        System.out.println("# of lines: " + numOfCommonLines());
+        System.out.println("Common lines are: \n" + formattedPrint(commonLines));
+        
+
         return "";
     }
 }
